@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    
+    <!-- WhatsApp Colors -->
+    <color name="whatsapp_green">#25D366</color>
+    <color name="whatsapp_dark_green">#128C7E</color>
+    <color name="whatsapp_light_green">#DCF8C6</color>
+    
+    <!-- App Colors -->
+    <color name="background_dark">#121212</color>
+    <color name="card_dark">#1E1E1E</color>
+    <color name="accent_purple">#7C4DFF</color>
+    <color name="purple_accent">#7C4DFF</color>
+    <color name="error_red">#FF5252</color>
+    
+    <!-- Premium Theme Colors -->
+    <color name="surface_dark">#0a0a0f</color>
+    <color name="card_glassmorphism">#1A1A2E</color>
+    <color name="card_border">#2D2D44</color>
+
+</resources>

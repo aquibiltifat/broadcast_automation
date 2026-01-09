@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.GroupWeaverAI" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">#25D366</item>
+        <item name="colorPrimaryDark">#128C7E</item>
+        <item name="colorAccent">#7C4DFF</item>
+        <item name="android:statusBarColor">#121212</item>
+        <item name="android:navigationBarColor">#121212</item>
+        <item name="android:windowBackground">#121212</item>
+    </style>
+</resources>

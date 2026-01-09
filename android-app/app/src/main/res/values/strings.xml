@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Group Weaver AI</string>
+    <string name="accessibility_service_description">This service monitors WhatsApp to extract broadcast list members and sync them with the server for analysis.</string>
+    
+    <!-- Main Activity -->
+    <string name="service_status">Service Status</string>
+    <string name="service_running">Running</string>
+    <string name="service_stopped">Stopped</string>
+    <string name="btn_start_service">Start Service</string>
+    <string name="btn_stop_service">Stop Service</string>
+    <string name="btn_open_settings">Open Accessibility Settings</string>
+    <string name="btn_sync_now">Sync Now</string>
+    
+    <!-- Instructions -->
+    <string name="instructions_title">How to Use</string>
+    <string name="instructions_text">1. Enable the accessibility service in Settings\n2. Open WhatsApp\n3. Navigate to Broadcast Lists\n4. The app will automatically extract members</string>
+    
+    <!-- Backend -->
+    <string name="backend_url_label">Backend URL</string>
+    <string name="backend_url_hint">http://your-server:3002</string>
+    
+    <!-- Sync Status -->
+    <string name="last_sync">Last Sync</string>
+    <string name="lists_found">Lists Found</string>
+    <string name="members_found">Members Found</string>
+</resources>
