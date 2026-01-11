@@ -40,6 +40,13 @@
             </intent-filter>
         </activity>
 
+        <!-- Dashboard Activity -->
+        <activity
+            android:name=".DashboardActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GroupWeaverAI"
+            android:parentActivityName=".MainActivity" />
+
         <!-- WhatsApp Accessibility Service -->
         <service
             android:name=".service.WhatsAppAccessibilityService"

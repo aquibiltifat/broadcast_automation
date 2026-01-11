@@ -1,0 +1,64 @@
+.\gradlew : WARNING: A 
+restricted method in 
+java.lang.System has been 
+called
+At line:1 char:69
++ ... dlew clean 2>&1 | 
+Out-Null; .\gradlew 
+compileDebugKotlin 2>&1 | 
+Out-S ...
++                         
+        ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (W  
+  ARNING: A rest...has    
+ been called:String) [    
+], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+WARNING: 
+java.lang.System::load 
+has been called by net.rub
+ygrapefruit.platform.inter
+nal.NativeLibraryLoader 
+in an unnamed module (file
+:/C:/Users/hp/.gradle/wrap
+per/dists/gradle-8.10.2-al
+l/7iv73wktx1xtkvlq19urqw1w
+m/gradle-8.10.2/lib/native
+-platform-0.22-milestone-2
+6.jar)
+WARNING: Use --enable-nati
+ve-access=ALL-UNNAMED to 
+avoid a warning for 
+callers in this module
+WARNING: Restricted 
+methods will be blocked 
+in a future release 
+unless native access is 
+enabled
+
+
+FAILURE: Build failed 
+with an exception.
+
+* What went wrong:
+25.0.1
+
+* Try:
+> Run with --stacktrace 
+option to get the stack 
+trace.
+> Run with --info or 
+--debug option to get 
+more log output.
+> Run with --scan to get 
+full insights.
+> Get more help at 
+https://help.gradle.org.
+
+BUILD FAILED in 987ms
+

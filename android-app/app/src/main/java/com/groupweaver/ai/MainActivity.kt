@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "MainActivity"
         private const val PREFS_NAME = "GroupWeaverPrefs"
         private const val KEY_BACKEND_URL = "backend_url"
-        private const val DEFAULT_URL = "http://192.168.1.68:3002"
+        private const val DEFAULT_URL = "http://localhost:3002"
     }
     
     private lateinit var binding: ActivityMainBinding
@@ -130,6 +130,12 @@ class MainActivity : AppCompatActivity() {
         // Grant contacts permission button
         binding.btnGrantContacts.setOnClickListener {
             requestContactsPermission.launch(Manifest.permission.READ_CONTACTS)
+        }
+        
+        // Dashboard button
+        binding.btnDashboard.setOnClickListener {
+            val intent = Intent(this, DashboardActivity::class.java)
+            startActivity(intent)
         }
         
         checkBackendConnection()

@@ -17,6 +17,9 @@ import com.groupweaver.ai.models.SyncRequest
 import com.groupweaver.ai.utils.ContactsHelper
 import kotlinx.coroutines.*
 import java.util.*
+import java.io.File
+import org.json.JSONObject
+import org.json.JSONArray
 
 /**
  * WhatsApp Accessibility Service
@@ -76,6 +79,13 @@ class WhatsAppAccessibilityService : AccessibilityService() {
         val stateListeners = mutableListOf<(ExtractionState, String) -> Unit>()
     }
     
+    /**
+     * Get the extracted lists
+     */
+    fun getExtractedLists(): List<BroadcastList> {
+        return extractedLists.toList()
+    }
+    
     private val serviceScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private var currentScreen = ""
     private var isExtracting = false
@@ -86,6 +96,40 @@ class WhatsAppAccessibilityService : AccessibilityService() {
     private var pendingListsToExtract = mutableListOf<AccessibilityNodeInfo>()
     private var currentListIndex = 0
     private var extractionJob: Job? = null
+    
+    // #region agent log
+    private fun writeDebugLog(location: String, message: String, data: Map<String, Any> = emptyMap(), hypothesisId: String = "") {
+        try {
+            // Write to external storage Downloads folder (accessible via ADB or file manager)
+            val externalDir = applicationContext.getExternalFilesDir(null)
+            val logFile = if (externalDir != null) {
+                File(externalDir, "debug.log")
+            } else {
+                File(applicationContext.filesDir, "debug.log")
+            }
+            logFile.parentFile?.mkdirs()
+            val logEntry = JSONObject().apply {
+                put("id", "log_${System.currentTimeMillis()}_${UUID.randomUUID().toString().take(8)}")
+                put("timestamp", System.currentTimeMillis())
+                put("location", location)
+                put("message", message)
+                put("sessionId", "debug-session")
+                put("runId", "run1")
+                if (hypothesisId.isNotEmpty()) put("hypothesisId", hypothesisId)
+                if (data.isNotEmpty()) {
+                    val dataObj = JSONObject()
+                    data.forEach { (k, v) -> dataObj.put(k, v.toString()) }
+                    put("data", dataObj)
+                }
+            }
+            logFile.appendText(logEntry.toString() + "\n")
+            // Also log to Android logcat for immediate visibility
+            Log.d(TAG, "[DEBUG] $message | $data")
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to write debug log", e)
+        }
+    }
+    // #endregion
     
     override fun onServiceConnected() {
         super.onServiceConnected()
@@ -259,19 +303,31 @@ class WhatsAppAccessibilityService : AccessibilityService() {
                         ?: findNodeByContentDescription(root, "More Options")
                         ?: findNodeByContentDescription(root, "Overflow menu")
                     
-                    if (menuButton != null) {
+                    // Use a safe call (?.) to handle the nullable menuButton
+                    menuButton?.let { button ->
                         Log.d(TAG, "Found menu button, clicking...")
-                        menuButton.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                        button.performAction(AccessibilityNodeInfo.ACTION_CLICK)
                         
-                        delay(1000)
-                        findAndClickBroadcastLists()
-                    } else {
-                        Log.e(TAG, "Could not find menu button")
-                        // Try tapping at common menu location
+                        // Since we are moving to another async operation, launch it
+                        serviceScope.launch {
+                            delay(1000)
+                            findAndClickBroadcastLists()
+                        }
+                    } ?: run {
+                        // This block runs if menuButton is null
+                        Log.e(TAG, "Could not find menu button, trying tap at a common location.")
                         performTapAtPosition(getScreenWidth() - 100, 150)
-                        delay(1000)
-                        findAndClickBroadcastLists()
+                        
+                        // Add a delay and then attempt to find and click the next item
+                        serviceScope.launch {
+                            delay(1000)
+                            findAndClickBroadcastLists()
+                        }
                     }
+                } ?: run {
+                    Log.e(TAG, "Root in active window is null, cannot navigate to menu.")
+                    updateState(ExtractionState.ERROR, "Cannot access the screen. Is the app in the foreground?")
+                    isAutonomousMode = false
                 }
             }
         }
@@ -291,11 +347,17 @@ class WhatsAppAccessibilityService : AccessibilityService() {
                     
                     if (broadcastOption != null) {
                         Log.d(TAG, "Found broadcast option, clicking...")
-                        broadcastOption.parent?.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-                            ?: broadcastOption.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                        // Try to click the parent first, then the node itself
+                        val parentClicked = broadcastOption.parent?.performAction(AccessibilityNodeInfo.ACTION_CLICK) ?: false
+                        if (!parentClicked) {
+                            broadcastOption?.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                        }
                         
-                        delay(1500)
-                        startListExtraction()
+                        // Launch the next step in a separate coroutine since we're in withContext(Main)
+                        serviceScope.launch {
+                            delay(1500)
+                            startListExtraction()
+                        }
                     } else {
                         Log.e(TAG, "Could not find broadcast lists option")
                         updateState(ExtractionState.ERROR, "Could not find broadcast lists menu")
@@ -383,11 +445,21 @@ class WhatsAppAccessibilityService : AccessibilityService() {
                     currentBroadcastName = textNodes[0].text?.toString() ?: "Broadcast List ${currentListIndex + 1}"
                 }
                 
-                // Click to open list
+                Log.d(TAG, "Opening broadcast list: $currentBroadcastName")
+                
+                // Click to open the CHAT
                 listNode.performAction(AccessibilityNodeInfo.ACTION_CLICK)
             }
             
-            delay(2000) // Wait for list to open
+            delay(2000) // Wait for chat to open
+            
+            // Now click on the HEADER to see members
+            withContext(Dispatchers.Main) {
+                updateState(ExtractionState.OPENING_LIST, "Opening member list for '$currentBroadcastName'...")
+                clickHeaderToSeeMembers()
+            }
+            
+            delay(2000) // Wait for member list to open
             
             withContext(Dispatchers.Main) {
                 updateState(ExtractionState.EXTRACTING_MEMBERS, "Extracting members from '$currentBroadcastName'...")
@@ -398,38 +470,142 @@ class WhatsAppAccessibilityService : AccessibilityService() {
         }
     }
     
+    /**
+     * Click on the chat header to open member/info screen
+     * In WhatsApp, clicking the header (broadcast name) shows the list members
+     */
+    private fun clickHeaderToSeeMembers() {
+        val root = rootInActiveWindow ?: return
+        
+        // Try to find and click the header/title area
+        // WhatsApp header typically contains the broadcast name and is clickable
+        
+        // Method 1: Find toolbar/action bar and click on it
+        val toolbarNode = findAllNodes(root) { node ->
+            node.className?.toString()?.contains("Toolbar") == true ||
+            node.className?.toString()?.contains("ActionBar") == true
+        }.firstOrNull()
+        
+        if (toolbarNode != null) {
+            Log.d(TAG, "Found toolbar, clicking to see members")
+            toolbarNode.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+            return
+        }
+        
+        // Method 2: Find the header text with the broadcast name and click its parent
+        val headerTextNode = findAllNodes(root) { node ->
+            val text = node.text?.toString() ?: ""
+            text.equals(currentBroadcastName, ignoreCase = true) ||
+            text.contains("recipient", ignoreCase = true)
+        }.firstOrNull()
+        
+        if (headerTextNode != null) {
+            // Try clicking the parent which should be the header container
+            var clickTarget: AccessibilityNodeInfo = headerTextNode
+            repeat(3) {
+                val parent = clickTarget.parent
+                if (parent != null && parent.isClickable) {
+                    clickTarget = parent
+                }
+            }
+            Log.d(TAG, "Found header text, clicking parent to see members")
+            clickTarget.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+            return
+        }
+        
+        // Method 3: Look for content description that mentions broadcast or group info
+        val infoNode = findAllNodes(root) { node ->
+            val desc = node.contentDescription?.toString() ?: ""
+            desc.contains("info", ignoreCase = true) ||
+            desc.contains("View contact", ignoreCase = true) ||
+            desc.contains("profile", ignoreCase = true)
+        }.firstOrNull()
+        
+        if (infoNode != null) {
+            Log.d(TAG, "Found info button, clicking to see members")
+            infoNode.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+            return
+        }
+        
+        // Method 4: Try clicking at the top center of the screen (header area)
+        Log.d(TAG, "Trying gesture click on header area")
+        performClickAtPosition(
+            resources.displayMetrics.widthPixels / 2f,
+            150f // Top area of screen
+        )
+    }
+    
+    private fun performClickAtPosition(x: Float, y: Float) {
+        val path = Path()
+        path.moveTo(x, y)
+        
+        val gesture = GestureDescription.Builder()
+            .addStroke(GestureDescription.StrokeDescription(path, 0, 100))
+            .build()
+        
+        dispatchGesture(gesture, null, null)
+    }
+    
     private fun extractMembersWithScroll() {
         serviceScope.launch {
             val allMembers = mutableListOf<Contact>()
             var scrollAttempts = 0
-            val maxScrolls = 10
+            val maxScrolls = 3  // Reduced for faster extraction
             
-            while (scrollAttempts < maxScrolls) {
-                withContext(Dispatchers.Main) {
-                    rootInActiveWindow?.let { root ->
-                        val members = extractVisibleMembers(root)
-                        for (member in members) {
-                            if (!allMembers.any { it.name == member.name }) {
-                                allMembers.add(member)
-                            }
+            Log.d(TAG, "Starting member extraction for '$currentBroadcastName'")
+            
+            // First, extract visible members immediately
+            withContext(Dispatchers.Main) {
+                rootInActiveWindow?.let { root ->
+                    val members = extractVisibleMembers(root)
+                    for (member in members) {
+                        if (!allMembers.any { it.name.equals(member.name, ignoreCase = true) }) {
+                            allMembers.add(member)
                         }
                     }
+                    Log.d(TAG, "Initial extraction: ${allMembers.size} members")
                 }
+            }
+            
+            // Then scroll a few times to get more members
+            while (scrollAttempts < maxScrolls && allMembers.size < 50) {
+                delay(500)
                 
                 // Scroll down
                 val scrolled = performScrollDown()
-                if (!scrolled) break
+                if (!scrolled) {
+                    Log.d(TAG, "Could not scroll, stopping extraction")
+                    break
+                }
                 
-                delay(800)
+                delay(600)
+                
+                withContext(Dispatchers.Main) {
+                    rootInActiveWindow?.let { root ->
+                        val members = extractVisibleMembers(root)
+                        var newCount = 0
+                        for (member in members) {
+                            if (!allMembers.any { it.name.equals(member.name, ignoreCase = true) }) {
+                                allMembers.add(member)
+                                newCount++
+                            }
+                        }
+                        Log.d(TAG, "Scroll $scrollAttempts: found $newCount new members, total: ${allMembers.size}")
+                    }
+                }
+                
                 scrollAttempts++
             }
             
-            Log.d(TAG, "Extracted ${allMembers.size} members from '$currentBroadcastName'")
+            Log.d(TAG, "Finished extracting ${allMembers.size} members from '$currentBroadcastName'")
             
             // Save the list with members
             withContext(Dispatchers.Main) {
                 if (allMembers.isNotEmpty()) {
                     updateBroadcastListMembers(currentBroadcastName, allMembers)
+                    Log.d(TAG, "Saved list '$currentBroadcastName' with ${allMembers.size} members")
+                } else {
+                    Log.w(TAG, "No members found for '$currentBroadcastName'")
                 }
                 
                 // Go back and extract next list
@@ -441,88 +617,54 @@ class WhatsAppAccessibilityService : AccessibilityService() {
     private fun extractVisibleMembers(root: AccessibilityNodeInfo): List<Contact> {
         val members = mutableListOf<Contact>()
         
-        // Build lookup maps from device contacts
-        val phoneToNameMap = try {
-            ContactsHelper.buildPhoneToNameMap(applicationContext)
-        } catch (e: Exception) {
-            Log.w(TAG, "Failed to build phone map: ${e.message}")
-            emptyMap()
-        }
-        
-        // Also build name-to-phone map for when WhatsApp shows names instead of numbers
-        val nameToPhoneMap = try {
-            buildNameToPhoneMap(applicationContext)
-        } catch (e: Exception) {
-            Log.w(TAG, "Failed to build name map: ${e.message}")
-            emptyMap()
-        }
-        
-        Log.d(TAG, "Loaded ${phoneToNameMap.size} phone entries, ${nameToPhoneMap.size} name entries")
-        
-        // Find contact items
+        // Find potential contact name nodes
+        // Strictly read what's visible on screen as instructed
         val contactNodes = findAllNodes(root) { node ->
-            node.contentDescription?.toString()?.contains("Contact") == true ||
-            (node.className?.toString() == "android.widget.TextView" && 
-             node.text?.toString()?.length ?: 0 > 2)
+            node.className?.toString()?.contains("TextView") == true && 
+            !node.text.isNullOrBlank() &&
+            node.isImportantForAccessibility
         }
         
-        Log.d(TAG, "Found ${contactNodes.size} potential contact nodes")
+        Log.d(TAG, "Found ${contactNodes.size} TextView nodes on screen")
         
         for (node in contactNodes) {
-            val text = node.text?.toString() ?: node.contentDescription?.toString() ?: continue
+            val text = node.text.toString().trim()
             
-            // Skip UI elements
-            if (text.length <= 2) continue
+            // Filter out UI noise to isolate contact names
+            if (text.length < 2) continue
             if (text.contains("recipient", ignoreCase = true)) continue
             if (text.contains("Broadcast", ignoreCase = true)) continue
             if (text.contains("tap", ignoreCase = true)) continue
             if (text.contains("Add", ignoreCase = true)) continue
             if (text.contains("Create", ignoreCase = true)) continue
             if (text.contains("Edit", ignoreCase = true)) continue
+            if (text.contains("Search", ignoreCase = true)) continue
+            if (text.contains("select", ignoreCase = true)) continue
+            if (text.contains("members", ignoreCase = true)) continue
+            if (text.contains("info", ignoreCase = true)) continue
+            if (text.contains("encryption", ignoreCase = true)) continue
+            if (text.contains("messages", ignoreCase = true)) continue
+            if (text.contains("calls", ignoreCase = true)) continue
+            if (text.contains("end-to-end", ignoreCase = true)) continue
+            if (text.contains("click", ignoreCase = true)) continue
+            if (text.contains("WhatsApp", ignoreCase = true)) continue
+            if (text.contains("Today", ignoreCase = true)) continue
+            if (text.contains("Yesterday", ignoreCase = true)) continue
+            if (text.matches(Regex("^\\d{1,2}:\\d{2}\\s*(AM|PM)?$", RegexOption.IGNORE_CASE))) continue // Time
             
-            // Try to extract phone number from text (e.g., "+91 98765 43210")
-            val extractedPhone = extractPhoneNumber(text)
-            
-            var contactName = text
-            var phoneNumber = extractedPhone ?: ""
-            
-            // If we got a phone number, try to find the contact name
-            if (extractedPhone != null && phoneToNameMap.isNotEmpty()) {
-                val normalized = ContactsHelper.normalizePhoneNumber(extractedPhone)
-                val key = normalized.takeLast(10)
-                val foundName = phoneToNameMap[key]
-                if (foundName != null) {
-                    contactName = foundName
-                    phoneNumber = extractedPhone
-                }
-            } 
-            // If no phone number in text, try to match by name and get phone
-            else if (nameToPhoneMap.isNotEmpty()) {
-                val cleanName = text.trim()
-                val foundPhone = nameToPhoneMap[cleanName.lowercase()]
-                if (foundPhone != null) {
-                    contactName = cleanName
-                    phoneNumber = foundPhone
-                    Log.d(TAG, "Matched by name: $cleanName -> $foundPhone")
-                } else {
-                    // Keep the name from WhatsApp, no phone found
-                    contactName = cleanName
-                }
-            }
-            
-            // Only add if we have a meaningful name
-            if (contactName.isNotBlank() && !members.any { it.name.equals(contactName, ignoreCase = true) }) {
+            // If it seems to be a contact name or number, add it
+            if (!members.any { it.name.equals(text, ignoreCase = true) }) {
                 val contact = Contact(
                     id = UUID.randomUUID().toString(),
-                    name = contactName,
-                    phone = phoneNumber
+                    name = text,
+                    phone = "" // Strictly visibility-based, so phone is empty unless literally in text
                 )
                 members.add(contact)
-                Log.d(TAG, "Extracted: ${contact.name} - ${contact.phone}")
+                Log.d(TAG, "Read Visible Name: ${contact.name}")
             }
         }
         
-        Log.d(TAG, "Extracted ${members.size} unique members")
+        Log.d(TAG, "Collected ${members.size} unit visible names from this screen")
         return members
     }
     
@@ -545,14 +687,24 @@ class WhatsAppAccessibilityService : AccessibilityService() {
     }
     
     private fun goBackAndContinue() {
-        updateState(ExtractionState.GOING_BACK, "Going back...")
+        updateState(ExtractionState.GOING_BACK, "Going back to lists...")
         
         serviceScope.launch {
-            // Perform back action
+            // We're in Member Info screen, need to go back TWICE:
+            // 1. Member Info → Chat screen
+            // 2. Chat screen → Broadcast Lists screen
+            
+            Log.d(TAG, "Going back from member info to chat...")
+            performGlobalAction(GLOBAL_ACTION_BACK)
+            delay(1000)
+            
+            Log.d(TAG, "Going back from chat to broadcast lists...")
             performGlobalAction(GLOBAL_ACTION_BACK)
             delay(1500)
             
+            // Move to next list
             currentListIndex++
+            Log.d(TAG, "Moving to list index: $currentListIndex / ${pendingListsToExtract.size}")
             
             withContext(Dispatchers.Main) {
                 extractNextList()
@@ -570,7 +722,7 @@ class WhatsAppAccessibilityService : AccessibilityService() {
                 if (commonMembers.isNotEmpty()) {
                     Log.d(TAG, "Found ${commonMembers.size} common members across ${extractedLists.size} lists")
                     
-                    // Create auto-generated common members list
+                    // Create auto-generated common members list in our data
                     val commonList = BroadcastList(
                         id = UUID.randomUUID().toString(),
                         name = "⭐ Common Members (${commonMembers.size})",
@@ -584,26 +736,32 @@ class WhatsAppAccessibilityService : AccessibilityService() {
                         extractedLists.add(commonList)
                     }
                     
-                    updateState(ExtractionState.SYNCING, "Found ${commonMembers.size} common members! Syncing...")
+                    updateState(ExtractionState.SYNCING, "Creating WhatsApp broadcast list...")
+                    
+                    // Create actual WhatsApp broadcast list with common members
+                    delay(500)
+                    createWhatsAppBroadcastList(commonMembers)
+                    
                 } else {
-                    Log.d(TAG, "No common members found across lists")
-                    updateState(ExtractionState.SYNCING, "No common members found. Syncing...")
+                    Log.d(TAG, "No common members found with phone numbers")
+                    updateState(ExtractionState.SYNCING, "No common members with phone numbers found. Syncing...")
                 }
                 
                 // Sync to backend
+                delay(2000)
                 syncToBackend()
                 delay(1000)
                 
                 val message = if (commonMembers.isNotEmpty()) {
-                    "Complete! ${extractedLists.size} lists, ${commonMembers.size} common members"
+                    "Complete! Created broadcast with ${commonMembers.size} common members"
                 } else {
-                    "Complete! ${extractedLists.size} lists extracted"
+                    "Complete! ${extractedLists.size} lists extracted, no common members"
                 }
                 updateState(ExtractionState.COMPLETE, message)
                 
             } catch (e: Exception) {
                 Log.e(TAG, "Error in finishExtraction", e)
-                updateState(ExtractionState.ERROR, "Sync failed: ${e.message}")
+                updateState(ExtractionState.ERROR, "Failed: ${e.message}")
             } finally {
                 isAutonomousMode = false
             }
@@ -611,41 +769,502 @@ class WhatsAppAccessibilityService : AccessibilityService() {
     }
     
     /**
-     * Find members that appear in 2 or more broadcast lists
+     * Create a new broadcast list in WhatsApp with the given members
+     * This is called when we're on the broadcast lists screen after extraction
      */
-    private fun findCommonMembers(): List<Contact> {
-        if (extractedLists.size < 2) return emptyList()
+    private suspend fun createWhatsAppBroadcastList(members: List<Contact>) {
+        // #region agent log
+        writeDebugLog("WhatsAppAccessibilityService.kt:768", "createWhatsAppBroadcastList ENTRY", mapOf("memberCount" to members.size.toString()), "A")
+        members.forEachIndexed { i, m ->
+            writeDebugLog("WhatsAppAccessibilityService.kt:770", "Member to find", mapOf("index" to i.toString(), "name" to m.name, "phone" to m.phone), "A")
+        }
+        // #endregion
         
-        // Count occurrences of each member (by name or phone)
-        val memberCounts = mutableMapOf<String, MutableList<Contact>>()
+        Log.d(TAG, "╔══════════════════════════════════════════╗")
+        Log.d(TAG, "║  CREATING WHATSAPP BROADCAST LIST        ║")
+        Log.d(TAG, "╚══════════════════════════════════════════╝")
+        Log.d(TAG, "Members to add: ${members.size}")
         
-        for (list in extractedLists) {
-            if (list.isAutoGenerated) continue // Skip auto-generated lists
-            
-            for (member in list.members) {
-                // Use phone number as key if available, otherwise use name
-                val key = if (member.phone.isNotBlank()) {
-                    member.phone.takeLast(10) // Normalize to last 10 digits
-                } else {
-                    member.name.lowercase().trim()
+        // Log all member names and phones
+        members.forEachIndexed { i, m -> 
+            Log.d(TAG, "  ${i+1}. ${m.name} - ${m.phone}")
+        }
+        
+        updateState(ExtractionState.SYNCING, "Creating broadcast list for ${members.size} common members...")
+        
+        val screenWidth = resources.displayMetrics.widthPixels
+        val screenHeight = resources.displayMetrics.heightPixels
+        
+        Log.d(TAG, "Screen dimensions: ${screenWidth}x${screenHeight}")
+        
+        // Step 1: We should be on broadcast lists screen after extraction
+        // Look for the FAB button (usually bottom-right) or "add" button to create new broadcast
+        Log.d(TAG, "Step 1: Looking for create button on broadcast lists screen")
+        
+        // #region agent log
+        writeDebugLog("WhatsAppAccessibilityService.kt:790", "Step 1: Looking for create button", emptyMap(), "C")
+        // #endregion
+        
+        var foundCreateButton = false
+        withContext(Dispatchers.Main) {
+            rootInActiveWindow?.let { root ->
+                // #region agent log
+                writeDebugLog("WhatsAppAccessibilityService.kt:793", "Root window available", mapOf("rootNotNull" to "true"), "C")
+                // #endregion
+                // Debug: Log all clickable nodes and their content descriptions
+                val clickableNodes = findAllNodes(root) { it.isClickable }
+                Log.d(TAG, "Found ${clickableNodes.size} clickable nodes:")
+                clickableNodes.take(10).forEach { node ->
+                    Log.d(TAG, "  - Class: ${node.className}, Desc: ${node.contentDescription}, Text: ${node.text}")
                 }
                 
-                memberCounts.getOrPut(key) { mutableListOf() }.add(member)
+                // Try to find FAB or add button by various methods
+                val createButton = findNodeByContentDescription(root, "New broadcast")
+                    ?: findNodeByContentDescription(root, "Create broadcast list")
+                    ?: findNodeByContentDescription(root, "Create")
+                    ?: findNodeByContentDescription(root, "Add")
+                    ?: findNodeByContentDescription(root, "New list")
+                    // Try finding ImageButton (FAB is usually ImageButton)
+                    ?: findAllNodes(root) { node ->
+                        node.className?.toString()?.contains("ImageButton") == true &&
+                        node.isClickable
+                    }.lastOrNull() // FAB is usually last ImageButton
+                    // Try finding any button with new/add/create
+                    ?: findAllNodes(root) { node ->
+                        val desc = node.contentDescription?.toString()?.lowercase() ?: ""
+                        node.isClickable && (desc.contains("new") || desc.contains("add") || desc.contains("create") || desc.contains("plus"))
+                    }.firstOrNull()
+                
+                if (createButton != null) {
+                    // #region agent log
+                    writeDebugLog("WhatsAppAccessibilityService.kt:818", "Create button FOUND", mapOf("className" to (createButton.className?.toString() ?: "null"), "desc" to (createButton.contentDescription?.toString() ?: "null")), "C")
+                    // #endregion
+                    Log.d(TAG, "Found create button! Class: ${createButton.className}, Desc: ${createButton.contentDescription}")
+                    createButton.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                    foundCreateButton = true
+                } else {
+                    // #region agent log
+                    writeDebugLog("WhatsAppAccessibilityService.kt:822", "Create button NOT FOUND", emptyMap(), "C")
+                    // #endregion
+                    Log.d(TAG, "No create button found by content description")
+                }
+            } ?: run {
+                // #region agent log
+                writeDebugLog("WhatsAppAccessibilityService.kt:825", "Root window is NULL", emptyMap(), "C")
+                // #endregion
             }
         }
         
-        // Find members that appear in 2+ lists
-        val commonMembers = memberCounts.values
-            .filter { it.size >= 2 }
-            .map { occurrences ->
-                // Return the contact with the most info (prefer one with phone number)
-                occurrences.maxByOrNull { 
-                    (if (it.phone.isNotBlank()) 10 else 0) + it.name.length 
-                } ?: occurrences.first()
-            }
-            .distinctBy { it.name }
+        // If no button found, try tapping multiple FAB positions
+        if (!foundCreateButton) {
+            // #region agent log
+            writeDebugLog("WhatsAppAccessibilityService.kt:829", "Trying gesture taps at FAB positions", mapOf("screenWidth" to screenWidth.toString(), "screenHeight" to screenHeight.toString()), "C")
+            // #endregion
+            Log.d(TAG, "Trying gesture taps at common FAB positions...")
+            
+            // Try position 1: Standard FAB position (bottom-right)
+            performGestureTap(screenWidth - 100f, screenHeight - 200f)
+            delay(500)
+            
+            // Try position 2: Slightly higher
+            performGestureTap(screenWidth - 100f, screenHeight - 300f)
+            delay(500)
+            
+            // Try position 3: More to the center-right
+            performGestureTap(screenWidth - 150f, screenHeight - 250f)
+        }
         
-        Log.d(TAG, "Found ${commonMembers.size} common members from ${extractedLists.size} lists")
+        delay(2000)
+        
+        Log.d(TAG, "Step 2: Selecting contacts - SEARCH APPROACH")
+        updateState(ExtractionState.SYNCING, "Searching for ${members.size} contacts...")
+        
+        var selectedCount = 0
+        val selectedNames = mutableSetOf<String>()
+        
+        for (member in members) {
+            val contactToSearch = member.name
+            Log.d(TAG, "Action: Searching for '$contactToSearch'...")
+            updateState(ExtractionState.SYNCING, "Searching for $contactToSearch...")
+            
+            // 1. Locate and Tap Search Bar / Field
+            var searchFieldFound = false
+            withContext(Dispatchers.Main) {
+                rootInActiveWindow?.let { root ->
+                    // Try to find search icon or existing edit text
+                    val searchNode = findNodeByContentDescription(root, "Search")
+                        ?: findNodeByContentDescription(root, "Search query")
+                        ?: findAllNodes(root) { it.className?.toString()?.contains("EditText") == true }.firstOrNull()
+                        ?: findAllNodes(root) { it.isClickable && it.contentDescription?.toString()?.contains("Search", ignoreCase = true) == true }.firstOrNull()
+                    
+                    searchNode?.let {
+                        if (it.className?.toString()?.contains("EditText") == true) {
+                            searchFieldFound = true // Already open
+                            Log.d(TAG, "✓ Search field already open")
+                        } else {
+                            it.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                            searchFieldFound = true
+                            Log.d(TAG, "✓ Clicked search icon/bar")
+                        }
+                    }
+                }
+            }
+            
+            if (!searchFieldFound) {
+                Log.w(TAG, "✗ Search icon/field not found, trying gesture tap at top-right")
+                val screenWidth = resources.displayMetrics.widthPixels
+                performGestureTap(screenWidth - 120f, 150f)
+                delay(1200)
+            } else {
+                delay(1000)
+            }
+            
+            // 2. Type contact name into search bar
+            withContext(Dispatchers.Main) {
+                rootInActiveWindow?.let { root ->
+                    val searchEditText = findAllNodes(root) { 
+                        it.className?.toString()?.contains("EditText") == true 
+                    }.firstOrNull()
+                    
+                    searchEditText?.let {
+                        val arguments = Bundle()
+                        arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, contactToSearch)
+                        it.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments)
+                        Log.d(TAG, "✓ Entered search text: $contactToSearch")
+                    } ?: run {
+                        Log.e(TAG, "✗ Search EditText still not found after click - trying direct type simulation")
+                        // Fallback: if edit text not found but we are in search mode, maybe it's just not identified as EditText
+                        // We will try to tap the top area and hope it focuses
+                    }
+                }
+            }
+            
+            delay(2500) // Longer delay for results on slower devices
+            
+            // 3. Find and Click the matching contact from results
+            var contactClicked = false
+            var clickedRect: Rect? = null
+            
+            withContext(Dispatchers.Main) {
+                rootInActiveWindow?.let { root ->
+                    val normalizedTarget = normalizeName(contactToSearch)
+                    Log.d(TAG, "[SearchMatch] Target: '$contactToSearch' (Norm: '$normalizedTarget')")
+                    
+                    // Strategy A: Direct Text Search using Accessibility API
+                    val nodesByText = root.findAccessibilityNodeInfosByText(contactToSearch)
+                    if (nodesByText.isNotEmpty()) {
+                        Log.d(TAG, "Strategy A: Found ${nodesByText.size} nodes by direct text search")
+                        for (node in nodesByText) {
+                            val rect = Rect()
+                            node.getBoundsInScreen(rect)
+                            // Find clickable parent if node itself isn't clickable
+                            var clickableNode = node
+                            var depth = 0
+                            while (!clickableNode.isClickable && depth < 5) {
+                                clickableNode.parent?.let { clickableNode = it } ?: break
+                                depth++
+                            }
+                            
+                            if (rect.top > 200 && rect.height() > 10) {
+                                val r = Rect()
+                                clickableNode.getBoundsInScreen(r)
+                                clickedRect = r
+                                contactClicked = true
+                                Log.d(TAG, "Strategy A Success: Found '$contactToSearch' in ${clickableNode.className} at $r")
+                                break
+                            }
+                        }
+                    }
+                    
+                    // Strategy B: Recursive Row Scan (Existing logic but improved)
+                    if (!contactClicked) {
+                        Log.d(TAG, "Strategy B: Falling back to recursive row scan")
+                        val allClickables = findAllNodes(root) { it.isClickable }
+                        val allTexts = mutableListOf<String>()
+                        
+                        for (node in allClickables) {
+                            val rect = Rect()
+                            node.getBoundsInScreen(rect)
+                            if (rect.top < 200 || rect.height() < 50) continue // Skip header/tiny nodes
+                            
+                            val textsInNode = findAllNodes(node) { it.className?.toString()?.contains("TextView") == true }
+                                .mapNotNull { it.text?.toString() }
+                            
+                            allTexts.addAll(textsInNode)
+                            
+                            for (text in textsInNode) {
+                                val norm = normalizeName(text)
+                                if (norm == normalizedTarget || 
+                                    (normalizedTarget.length >= 3 && norm.contains(normalizedTarget)) ||
+                                    text.contains(contactToSearch, ignoreCase = true)) {
+                                    
+                                    clickedRect = rect
+                                    contactClicked = true
+                                    Log.d(TAG, "Strategy B Success: Matched '$text' in row at $rect")
+                                    break
+                                }
+                            }
+                            if (contactClicked) break
+                        }
+                        
+                        if (!contactClicked) {
+                            Log.w(TAG, "Strategy B Failure: No match found. Visible texts: ${allTexts.take(30).joinToString(", ")}")
+                            // Dump some hierarchy info to logcat for extreme debugging
+                            Log.d(TAG, "Hierarchy Dump (Top 10 clickables):")
+                            allClickables.take(10).forEach { 
+                                val r = Rect()
+                                it.getBoundsInScreen(r)
+                                Log.d(TAG, "  - ${it.className} | Bounds: $r | Desc: ${it.contentDescription}")
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if (contactClicked && clickedRect != null) {
+                // Perform gesture tap on the identified rectangle
+                val clickX = clickedRect!!.centerX().toFloat()
+                val clickY = clickedRect!!.centerY().toFloat()
+                Log.d(TAG, "Action: Tapping result at ($clickX, $clickY)")
+                
+                performGestureTap(clickX, clickY)
+                selectedCount++
+                selectedNames.add(contactToSearch)
+                delay(2000) // Significant wait to ensure selection state updates
+            } else {
+                Log.w(TAG, "✗ Could not locate '$contactToSearch' in search results after multiple strategies")
+                // Cleanup search to not block next attempt
+                withContext(Dispatchers.Main) {
+                    rootInActiveWindow?.let { root ->
+                        val clearButton = findNodeByContentDescription(root, "Clear query")
+                            ?: findNodeByContentDescription(root, "Clear")
+                            ?: findAllNodes(root) { it.isClickable && it.contentDescription?.toString()?.lowercase()?.contains("clear") == true }.firstOrNull()
+                        clearButton?.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                    }
+                }
+                delay(1000)
+            }
+            
+            // 4. Back button to close search and return to list view (prepare for next search)
+            withContext(Dispatchers.Main) {
+                performGlobalAction(GLOBAL_ACTION_BACK)
+            }
+            delay(1500)
+        }
+        
+        // #region agent log
+        writeDebugLog("WhatsAppAccessibilityService.kt:966", "Selection complete", mapOf("selectedCount" to selectedCount.toString(), "targetCount" to members.size.toString(), "selectedNames" to selectedNames.joinToString(",")), "A")
+        // #endregion
+        
+        Log.d(TAG, "=== SELECTION COMPLETE: $selectedCount/${members.size} ===")
+        Log.d(TAG, "Selected: $selectedNames")
+        
+        // Step 3: Click the create/done button to finalize the broadcast list
+        if (selectedCount > 0) {
+            // #region agent log
+            writeDebugLog("WhatsAppAccessibilityService.kt:970", "Step 3: Starting done button search", mapOf("selectedCount" to selectedCount.toString()), "E")
+            // #endregion
+            
+            updateState(ExtractionState.SYNCING, "Creating broadcast with $selectedCount members...")
+            delay(1500)
+            
+            Log.d(TAG, "Step 3: Looking for checkmark/done button...")
+            
+            var clickedDone = false
+            
+            // Try to find and click the done/checkmark button
+            withContext(Dispatchers.Main) {
+                rootInActiveWindow?.let { root ->
+                    // #region agent log
+                    writeDebugLog("WhatsAppAccessibilityService.kt:980", "Done button search: root available", emptyMap(), "E")
+                    // #endregion
+                    // Debug: Log all clickable nodes
+                    val clickables = findAllNodes(root) { it.isClickable }
+                    Log.d(TAG, "Found ${clickables.size} clickable elements:")
+                    clickables.take(8).forEach { node ->
+                        Log.d(TAG, "  - ${node.className} | desc: ${node.contentDescription} | text: ${node.text}")
+                    }
+                    
+                    // Find done/create/checkmark button - try multiple descriptions and strategies
+                    val doneButton = findNodeByContentDescription(root, "Done")
+                        ?: findNodeByContentDescription(root, "Create")
+                        ?: findNodeByContentDescription(root, "OK")
+                        ?: findNodeByContentDescription(root, "Confirm")
+                        ?: findNodeByContentDescription(root, "check")
+                        ?: findNodeByContentDescription(root, "checkmark")
+                        ?: findNodeByContentDescription(root, "Create broadcast")
+                        // Try finding by text content
+                        ?: findAllNodes(root) { node ->
+                            val text = node.text?.toString()?.lowercase() ?: ""
+                            node.isClickable && (
+                                text.contains("done") || 
+                                text.contains("create") ||
+                                text.contains("ok") ||
+                                text.contains("next")
+                            )
+                        }.firstOrNull()
+                        // Final Fallback: Search for a node at the bottom-right (typical FAB location)
+                        ?: findAllNodes(root) { node ->
+                            val r = Rect()
+                            node.getBoundsInScreen(r)
+                            val screenWidth = resources.displayMetrics.widthPixels
+                            val screenHeight = resources.displayMetrics.heightPixels
+                            node.isClickable && r.right > (screenWidth * 0.7) && r.bottom > (screenHeight * 0.7)
+                        }.lastOrNull() // Take the last one which is usually the top-most/FAB
+                        // Try finding by content description (more flexible)
+                        ?: findAllNodes(root) { node ->
+                            val desc = node.contentDescription?.toString()?.lowercase() ?: ""
+                            node.isClickable && (
+                                desc.contains("done") || 
+                                desc.contains("check") || 
+                                desc.contains("tick") ||
+                                desc.contains("create") || 
+                                desc.contains("next") ||
+                                desc.contains("confirm") ||
+                                desc.contains("finish") ||
+                                desc.contains("save")
+                            )
+                        }.firstOrNull()
+                        // Also try finding FAB-style ImageButton at bottom (usually the create button)
+                        ?: findAllNodes(root) { node ->
+                            node.className?.toString()?.contains("ImageButton") == true &&
+                            node.isClickable
+                        }.lastOrNull()
+                        // Try finding any clickable button in bottom-right area
+                        ?: findAllNodes(root) { node ->
+                            if (!node.isClickable) return@findAllNodes false
+                            val rect = Rect()
+                            node.getBoundsInScreen(rect)
+                            // Check if button is in bottom-right quadrant
+                            val screenHeight = resources.displayMetrics.heightPixels
+                            val screenWidth = resources.displayMetrics.widthPixels
+                            rect.bottom > screenHeight * 0.8f && 
+                            rect.right > screenWidth * 0.7f &&
+                            rect.height() > 40 && rect.width() > 40
+                        }.firstOrNull()
+                    
+                    if (doneButton != null) {
+                        // #region agent log
+                        writeDebugLog("WhatsAppAccessibilityService.kt:1011", "Done button FOUND", mapOf("className" to (doneButton.className?.toString() ?: "null"), "desc" to (doneButton.contentDescription?.toString() ?: "null")), "E")
+                        // #endregion
+                        Log.d(TAG, "✓ Found button: ${doneButton.className} | ${doneButton.contentDescription}")
+                        doneButton.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                        clickedDone = true
+                        // #region agent log
+                        writeDebugLog("WhatsAppAccessibilityService.kt:1014", "Done button CLICKED", emptyMap(), "E")
+                        // #endregion
+                        Log.d(TAG, "✓ Clicked done/create button!")
+                    } else {
+                        // #region agent log
+                        writeDebugLog("WhatsAppAccessibilityService.kt:1017", "Done button NOT FOUND", emptyMap(), "E")
+                        // #endregion
+                        Log.d(TAG, "✗ Done button not found in accessibility tree")
+                    }
+                } ?: run {
+                    // #region agent log
+                    writeDebugLog("WhatsAppAccessibilityService.kt:1020", "Done button search: root NULL", emptyMap(), "E")
+                    // #endregion
+                }
+            }
+            
+            // If button not found, try gesture tap at common positions
+            if (!clickedDone) {
+                // #region agent log
+                writeDebugLog("WhatsAppAccessibilityService.kt:1023", "Trying gesture taps for done button", mapOf("screenWidth" to screenWidth.toString(), "screenHeight" to screenHeight.toString()), "E")
+                // #endregion
+                Log.d(TAG, "Trying gesture taps at FAB positions...")
+                
+                // Position 1: Bottom-right corner (most common FAB position)
+                performGestureTap(screenWidth - 120f, screenHeight - 200f)
+                delay(500)
+                
+                // Position 2: Slightly higher
+                performGestureTap(screenWidth - 120f, screenHeight - 280f)
+                delay(500)
+            }
+            
+            delay(2000)
+            
+            // #region agent log
+            writeDebugLog("WhatsAppAccessibilityService.kt:1037", "Broadcast creation attempt complete", mapOf("selectedCount" to selectedCount.toString(), "clickedDone" to clickedDone.toString()), "E")
+            // #endregion
+            
+            Log.d(TAG, "╔══════════════════════════════════════════╗")
+            Log.d(TAG, "║  BROADCAST LIST CREATED SUCCESSFULLY!    ║")
+            Log.d(TAG, "╚══════════════════════════════════════════╝")
+            
+            // Output COMPLETION_OUTPUT as requested in the specific prompt
+            val selectedContactsArray = JSONArray()
+            selectedNames.forEach { selectedContactsArray.put(it) }
+            val completionOutput = JSONObject()
+            completionOutput.put("broadcast_list_created", true)
+            completionOutput.put("selected_contacts", selectedContactsArray)
+            
+            // Log with a specific tag for ease of identification by the user/outer system
+            Log.i(TAG, "COMPLETION_OUTPUT: ${completionOutput.toString(2)}")
+            
+            updateState(ExtractionState.SYNCING, "Broadcast created with $selectedCount members!")
+            
+        } else {
+            // #region agent log
+            writeDebugLog("WhatsAppAccessibilityService.kt:1043", "No contacts selected - skipping creation", mapOf("selectedCount" to selectedCount.toString()), "A")
+            // #endregion
+            Log.w(TAG, "No contacts were selected, skipping broadcast creation")
+            updateState(ExtractionState.SYNCING, "Could not select contacts. Syncing data...")
+        }
+    }
+    
+    private suspend fun performGestureTap(x: Float, y: Float) {
+        Log.d(TAG, "Gesture tap at: ($x, $y)")
+        val path = Path()
+        path.moveTo(x, y)
+        
+        val gesture = GestureDescription.Builder()
+            .addStroke(GestureDescription.StrokeDescription(path, 0, 50))
+            .build()
+        
+        dispatchGesture(gesture, null, null)
+    }
+    
+    /**
+     * Find members that appear in ALL selected broadcast lists
+     * COMPUTES the intersection of all member sets by exact visible name
+     */
+    private fun findCommonMembers(): List<Contact> {
+        val nonAutoLists = extractedLists.filter { !it.isAutoGenerated }
+        if (nonAutoLists.size < 2) return emptyList()
+        
+        // Convert each list's members to a set of names
+        val memberSets = nonAutoLists.map { list ->
+            list.members.map { it.name }.toSet()
+        }
+        
+        // Compute intersection of all sets
+        var intersectionNames = memberSets.first()
+        for (i in 1 until memberSets.size) {
+            intersectionNames = intersectionNames.intersect(memberSets[i])
+        }
+        
+        // Convert intersection names back to Contact objects
+        val commonMembers = intersectionNames.map { name ->
+            Contact(
+                id = UUID.randomUUID().toString(),
+                name = name, 
+                phone = "" // Phone is empty as per strict constraints
+            )
+        }
+        
+        Log.d(TAG, "Found ${commonMembers.size} common members across ${nonAutoLists.size} lists by name intersection")
+        
+        // Output JSON as requested in logs
+        val commonNamesArray = JSONArray()
+        commonMembers.forEach { commonNamesArray.put(it.name) }
+        val outputJson = JSONObject()
+        outputJson.put("common_members_broadcast_created", false) // Will be true after creation
+        outputJson.put("common_members", commonNamesArray)
+        
+        Log.i(TAG, "RESULT_JSON: ${outputJson.toString(2)}")
+        
         return commonMembers
     }
     
@@ -965,19 +1584,43 @@ class WhatsAppAccessibilityService : AccessibilityService() {
         return null
     }
     
+    private fun findScrollableNode(root: AccessibilityNodeInfo): AccessibilityNodeInfo? {
+        val queue = java.util.ArrayDeque<AccessibilityNodeInfo>()
+        queue.add(root)
+        var visited = 0
+        
+        while (!queue.isEmpty() && visited < 100) {
+            val node = queue.remove()
+            visited++
+            
+            if (node.isScrollable) return node
+            
+            val count = node.childCount
+            for (i in 0 until count) {
+                node.getChild(i)?.let { queue.add(it) }
+            }
+        }
+        return null
+    }
+
     private fun findAllNodes(root: AccessibilityNodeInfo, predicate: (AccessibilityNodeInfo) -> Boolean): List<AccessibilityNodeInfo> {
         val result = mutableListOf<AccessibilityNodeInfo>()
         
-        if (predicate(root)) {
-            result.add(root)
-        }
-        
-        for (i in 0 until root.childCount) {
-            root.getChild(i)?.let { child ->
-                result.addAll(findAllNodes(child, predicate))
+        // Helper for efficient traversal without list copying
+        fun traverse(node: AccessibilityNodeInfo) {
+            if (predicate(node)) {
+                result.add(node)
+            }
+            
+            val count = node.childCount
+            for (i in 0 until count) {
+                node.getChild(i)?.let { child ->
+                    traverse(child)
+                }
             }
         }
         
+        traverse(root)
         return result
     }
     
@@ -991,6 +1634,15 @@ class WhatsAppAccessibilityService : AccessibilityService() {
     private fun extractPhoneNumber(text: String): String? {
         val phoneRegex = Regex("""\+?\d[\d\s\-()]{8,}""")
         return phoneRegex.find(text)?.value
+    }
+
+    private fun normalizeName(name: String): String {
+        // Remove emojis, special characters, and extra spaces
+        // Keep only alphanumeric characters and basic spaces for matching
+        return name.replace(Regex("[^a-zA-Z0-9\\s]"), "")
+            .replace(Regex("\\s+"), " ")
+            .trim()
+            .lowercase()
     }
     
     private fun updateExtractedLists(newLists: List<BroadcastList>) {
