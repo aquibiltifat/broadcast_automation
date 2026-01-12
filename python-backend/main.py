@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 """
 Group Weaver AI - Python Backend
 FastAPI server for Android app sync, AI analysis, and real-time WebSocket updates
@@ -494,7 +494,7 @@ if __name__ == "__main__":
         port=int(os.getenv("PORT", 3002)),
         reload=True
     )
-=======
+
 """
 Group Weaver AI - Python Backend
 FastAPI server for Android app sync, AI analysis, and real-time WebSocket updates
@@ -990,4 +990,4 @@ if __name__ == "__main__":
         port=int(os.getenv("PORT", 3002)),
         reload=True
     )
->>>>>>> 1a3b017b086679a00c64ff840071d92249448a5f
+

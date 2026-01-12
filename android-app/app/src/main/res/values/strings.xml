@@ -18,7 +18,7 @@
     
     <!-- Backend -->
     <string name="backend_url_label">Backend URL</string>
-    <string name="backend_url_hint">http://your-server:3002</string>
+    <string name="backend_url_hint">https://broadcast-backend-u08k.onrender.com</string>
     
     <!-- Sync Status -->
     <string name="last_sync">Last Sync</string>

@@ -1,0 +1,537 @@
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:dataBindingMergeDependencyArtifactsDebug UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:processDebugNavigationResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:dataBindingGenBaseClassesDebug UP-TO-DATE
+> Task :app:generateDebugBuildConfig UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:compileDebugNavigationResources UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:mergeDebugShaders UP-TO-DATE
+> Task :app:compileDebugShaders NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:mergeDebugAssets UP-TO-DATE
+> Task :app:compressDebugAssets UP-TO-DATE
+> Task :app:desugarDebugFileDependencies UP-TO-DATE
+> Task :app:checkDebugDuplicateClasses UP-TO-DATE
+> Task :app:mergeExtDexDebug UP-TO-DATE
+> Task :app:mergeLibDexDebug UP-TO-DATE
+> Task :app:mergeDebugJniLibFolders UP-TO-DATE
+> Task :app:mergeDebugNativeLibs NO-SOURCE
+> Task :app:stripDebugDebugSymbols NO-SOURCE
+> Task :app:validateSigningDebug UP-TO-DATE
+> Task :app:writeDebugAppMetadata UP-TO-DATE
+> Task :app:writeDebugSigningConfigVersions UP-TO-DATE
+
+> Task :app:compileDebugKotlin FAILED
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:30:1 Class 'WhatsAppAccessibilityService' is not abstract and does not implement abstract base class member 'onAccessibilityEvent'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1172:60 Unresolved reference 'classname'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1191:21 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1191:24 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1191:25 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1191:26 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1191:40 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1191:42 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1191:42 Function declaration must have a name.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1192:31 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1193:58 Unresolved reference 'root'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1208:45 Unresolved reference 'normalizedTarget'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1209:38 Unresolved reference 'normalizedTarget'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1209:84 Unresolved reference 'normalizedTarget'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1210:51 Unresolved reference 'contactToSearch'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1212:37 Unresolved reference 'clickedRect'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1213:37 Unresolved reference 'contactClicked'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1214:43 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1218:33 Unresolved reference 'contactClicked'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1221:30 Unresolved reference 'contactClicked'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1222:35 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1224:35 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1228:39 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1232:17 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1233:13 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1235:13 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1235:16 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1235:17 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1235:32 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1235:35 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1235:47 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1235:50 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1235:54 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1235:56 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1235:56 Function declaration must have a name.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1237:30 Unresolved reference 'clickedRect'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1237:44 Unresolved reference 'centerX'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1238:30 Unresolved reference 'clickedRect'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1238:44 Unresolved reference 'centerY'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1239:23 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1241:17 Suspend function 'suspend fun performGestureTap(x: Float, y: Float): Unit' should be called only from a coroutine or another suspend function.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1242:17 Unresolved reference 'selectedCount'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1242:30 Unresolved reference 'selectedCount'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1243:17 Unresolved reference 'selectedNames'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1243:35 Unresolved reference 'contactToSearch'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1244:17 Suspend function 'suspend fun delay(timeMillis: Long): Unit' should be called only from a coroutine or another suspend function.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1245:15 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1245:20 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1245:20 Function declaration must have a name.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1246:23 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1246:50 Unresolved reference 'contactToSearch'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1248:17 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1248:17 Suspend function 'suspend fun <T> withContext(context: CoroutineContext, block: suspend CoroutineScope.() -> T): T
+    [R|Contract description]
+     <
+        CallsInPlace(block, EXACTLY_ONCE)
+    >' should be called only from a coroutine or another suspend function.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1248:17 Not enough information to infer type argument for 'T'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1248:47 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1249:21 Unresolved reference 'rootInActiveWindow'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1249:41 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1249:41 Not enough information to infer type argument for 'R'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1249:47 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1256:17 Suspend function 'suspend fun delay(timeMillis: Long): Unit' should be called only from a coroutine or another suspend function.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1260:13 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1260:24 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1260:25 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1260:36 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1260:37 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1260:41 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1260:43 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1260:43 Function declaration must have a name.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1261:17 Unresolved reference 'performGlobalAction'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1261:37 Unresolved reference 'GLOBAL_ACTION_BACK'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1263:13 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1263:18 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1263:19 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1263:23 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1264:9 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:9 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:22 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:23 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:24 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:59 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:60 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:62 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:63 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:81 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:82 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:84 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:89 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:90 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:91 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:104 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:106 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:109 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:122 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:123 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:131 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:132 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:133 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:135 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:136 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:147 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:149 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:152 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:159 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:160 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:164 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:165 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:173 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:174 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:175 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:177 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:178 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:191 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:193 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:196 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:209 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:210 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:222 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:223 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:224 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:225 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:226 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:227 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:228 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:230 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:231 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:232 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1267:233 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:9 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:12 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:13 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:14 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:15 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:18 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:20 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:21 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:45 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:46 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:59 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:60 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:62 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:69 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:70 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:74 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:75 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:79 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1270:80 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1271:9 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1271:12 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1271:13 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1271:14 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1271:15 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1271:18 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1271:20 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1271:21 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1271:31 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1271:32 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1271:45 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1271:46 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1274:9 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1274:12 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1274:13 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1274:27 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1274:29 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1274:30 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1274:32 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1274:32 Function declaration must have a name.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1276:13 Unresolved reference 'writeDebugLog'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1276:130 Unresolved reference 'selectedCount'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1279:25 Unresolved reference 'ExtractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1279:76 Unresolved reference 'selectedCount'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1280:13 Suspend function 'suspend fun delay(timeMillis: Long): Unit' should be called only from a coroutine or another suspend function.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1282:19 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1287:13 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1287:13 Suspend function 'suspend fun <T> withContext(context: CoroutineContext, block: suspend CoroutineScope.() -> T): T
+    [R|Contract description]
+     <
+        CallsInPlace(block, EXACTLY_ONCE)
+    >' should be called only from a coroutine or another suspend function.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1287:13 Not enough information to infer type argument for 'T'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1287:43 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1288:17 Unresolved reference 'rootInActiveWindow'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1288:17 Argument type mismatch: actual type is 'R?', but 'K?' was expected.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1288:17 Not enough information to infer type argument for 'K'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1288:37 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1288:37 Not enough information to infer type argument for 'R'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1288:43 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1290:21 Unresolved reference 'writeDebugLog'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1290:112 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1294:27 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1296:31 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1321:47 Unresolved reference 'resources'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1322:48 Unresolved reference 'resources'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1350:48 Unresolved reference 'resources'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1351:47 Unresolved reference 'resources'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1359:25 Unresolved reference 'writeDebugLog'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1361:31 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1365:25 Unresolved reference 'writeDebugLog'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1365:102 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1367:31 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1370:25 Unresolved reference 'writeDebugLog'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1370:104 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1372:31 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1374:22 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1374:22 Not enough information to infer type argument for 'R'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1374:22 Argument type mismatch: actual type is 'R', but 'K' was expected.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1374:26 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1376:21 Unresolved reference 'writeDebugLog'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1376:108 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1384:17 Unresolved reference 'writeDebugLog'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1384:133 Unresolved reference 'screenWidth'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1384:175 Unresolved reference 'screenHeight'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1386:23 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1389:17 Suspend function 'suspend fun performGestureTap(x: Float, y: Float): Unit' should be called only from a coroutine or another suspend function.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1389:35 Unresolved reference 'screenWidth'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1389:55 Unresolved reference 'screenHeight'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1390:17 Suspend function 'suspend fun delay(timeMillis: Long): Unit' should be called only from a coroutine or another suspend function.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1393:17 Suspend function 'suspend fun performGestureTap(x: Float, y: Float): Unit' should be called only from a coroutine or another suspend function.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1393:35 Unresolved reference 'screenWidth'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1393:55 Unresolved reference 'screenHeight'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1394:17 Suspend function 'suspend fun delay(timeMillis: Long): Unit' should be called only from a coroutine or another suspend function.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1397:13 Suspend function 'suspend fun delay(timeMillis: Long): Unit' should be called only from a coroutine or another suspend function.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1400:13 Unresolved reference 'writeDebugLog'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1400:131 Unresolved reference 'selectedCount'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1403:19 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1404:19 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1405:19 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1409:13 Unresolved reference 'selectedNames'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1409:63 Unresolved reference 'it'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1415:19 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1417:25 Unresolved reference 'ExtractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1417:75 Unresolved reference 'selectedCount'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1419:11 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1419:16 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1419:16 Function declaration must have a name.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1421:13 Unresolved reference 'writeDebugLog'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1421:136 Unresolved reference 'selectedCount'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1423:19 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1424:25 Unresolved reference 'ExtractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1426:5 Syntax error: Expecting a top level declaration.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1429:15 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1437:9 Unresolved reference 'dispatchGesture'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1445:28 Unresolved reference 'extractedLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1445:50 Unresolved reference 'not' for operator '!'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1445:53 Unresolved reference 'it'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1446:26 Unresolved reference 'size'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1449:39 Overload resolution ambiguity between candidates:
+fun <R, T> Result<T>.map(transform: (@ParameterName(...) T) -> R): Result<R>
+    [R|Contract description]
+     <
+        CallsInPlace(transform, AT_MOST_ONCE)
+    >
+fun <T, R> Array<out T>.map(transform: (T) -> R): List<R>
+fun <R> BooleanArray.map(transform: (Boolean) -> R): List<R>
+fun <R> ByteArray.map(transform: (Byte) -> R): List<R>
+fun <R> CharArray.map(transform: (Char) -> R): List<R>
+fun <R> DoubleArray.map(transform: (Double) -> R): List<R>
+fun <R> FloatArray.map(transform: (Float) -> R): List<R>
+fun <R> IntArray.map(transform: (Int) -> R): List<R>
+fun <R> LongArray.map(transform: (Long) -> R): List<R>
+fun <R> ShortArray.map(transform: (Short) -> R): List<R>
+fun <T, R> Iterable<T>.map(transform: (T) -> R): List<R>
+fun <K, V, R> Map<out K, V>.map(transform: (Map.Entry<K, V>) -> R): List<R>
+fun <R> UByteArray.map(transform: (UByte) -> R): List<R>
+fun <R> UIntArray.map(transform: (UInt) -> R): List<R>
+fun <R> ULongArray.map(transform: (ULong) -> R): List<R>
+fun <R> UShortArray.map(transform: (UShort) -> R): List<R>
+fun <T, R> Sequence<T>.map(transform: (T) -> R): Sequence<R>
+fun <R> CharSequence.map(transform: (Char) -> R): List<R>
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1449:45 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1450:18 Unresolved reference 'members'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1450:30 Unresolved reference 'name'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1450:32 Unresolved reference 'it'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1450:42 Overload resolution ambiguity between candidates:
+fun <T> Array<out T>.toSet(): Set<T>
+fun BooleanArray.toSet(): Set<Boolean>
+fun ByteArray.toSet(): Set<Byte>
+fun CharArray.toSet(): Set<Char>
+fun DoubleArray.toSet(): Set<Double>
+fun FloatArray.toSet(): Set<Float>
+fun IntArray.toSet(): Set<Int>
+fun LongArray.toSet(): Set<Long>
+fun ShortArray.toSet(): Set<Short>
+fun <T> Iterable<T>.toSet(): Set<T>
+fun <T> Sequence<T>.toSet(): Set<T>
+fun CharSequence.toSet(): Set<Char>
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1454:44 Overload resolution ambiguity between candidates:
+fun <T> Array<out T>.first(): T
+fun BooleanArray.first(): Boolean
+fun ByteArray.first(): Byte
+fun CharArray.first(): Char
+fun DoubleArray.first(): Double
+fun FloatArray.first(): Float
+fun IntArray.first(): Int
+fun LongArray.first(): Long
+fun ShortArray.first(): Short
+fun <T> Iterable<T>.first(): T
+fun <T> List<T>.first(): T
+fun UByteArray.first(): UByte
+fun UIntArray.first(): UInt
+fun ULongArray.first(): ULong
+fun UShortArray.first(): UShort
+fun CharProgression.first(): Char
+fun IntProgression.first(): Int
+fun LongProgression.first(): Long
+fun UIntProgression.first(): UInt
+fun ULongProgression.first(): ULong
+fun <T> Sequence<T>.first(): T
+fun CharSequence.first(): Char
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1455:38 Unresolved reference 'size'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1456:61 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1460:47 Overload resolution ambiguity between candidates:
+fun <R, T> Result<T>.map(transform: (@ParameterName(...) T) -> R): Result<R>
+    [R|Contract description]
+     <
+        CallsInPlace(transform, AT_MOST_ONCE)
+    >
+fun <T, R> Array<out T>.map(transform: (T) -> R): List<R>
+fun <R> BooleanArray.map(transform: (Boolean) -> R): List<R>
+fun <R> ByteArray.map(transform: (Byte) -> R): List<R>
+fun <R> CharArray.map(transform: (Char) -> R): List<R>
+fun <R> DoubleArray.map(transform: (Double) -> R): List<R>
+fun <R> FloatArray.map(transform: (Float) -> R): List<R>
+fun <R> IntArray.map(transform: (Int) -> R): List<R>
+fun <R> LongArray.map(transform: (Long) -> R): List<R>
+fun <R> ShortArray.map(transform: (Short) -> R): List<R>
+fun <T, R> Iterable<T>.map(transform: (T) -> R): List<R>
+fun <K, V, R> Map<out K, V>.map(transform: (Map.Entry<K, V>) -> R): List<R>
+fun <R> UByteArray.map(transform: (UByte) -> R): List<R>
+fun <R> UIntArray.map(transform: (UInt) -> R): List<R>
+fun <R> ULongArray.map(transform: (ULong) -> R): List<R>
+fun <R> UShortArray.map(transform: (UShort) -> R): List<R>
+fun <T, R> Sequence<T>.map(transform: (T) -> R): Sequence<R>
+fun <R> CharSequence.map(transform: (Char) -> R): List<R>
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1460:53 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1468:15 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1468:43 Unresolved reference 'size'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1468:86 Unresolved reference 'size'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1472:23 Overload resolution ambiguity between candidates:
+fun <T> Iterable<T>.forEach(action: (T) -> Unit): Unit
+fun <K, V> Map<out K, V>.forEach(action: (Map.Entry<K, V>) -> Unit): Unit
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1472:54 Unresolved reference 'it'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1477:15 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1482:36 Unresolved reference 'ExtractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1483:9 Unresolved reference 'extractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1484:9 Unresolved reference 'currentProgress'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1486:9 Unresolved reference 'extractionStep'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1486:26 'when' expression must be exhaustive. Add an 'else' branch.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1487:13 Unresolved reference 'ExtractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1488:13 Unresolved reference 'ExtractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1489:13 Unresolved reference 'ExtractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1489:49 Unresolved reference 'ExtractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1490:13 Unresolved reference 'ExtractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1490:47 Unresolved reference 'ExtractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1490:77 Unresolved reference 'ExtractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1490:113 Unresolved reference 'ExtractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1491:13 Unresolved reference 'ExtractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1492:13 Unresolved reference 'ExtractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1493:13 Unresolved reference 'ExtractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1493:38 Unresolved reference 'extractionStep'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1496:15 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1497:9 Unresolved reference 'stateListeners'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1497:32 Unresolved reference 'it'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1497:34 Unresolved reference 'it'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1510:16 Unresolved reference 'dispatchGesture'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1514:30 Unresolved reference 'resources'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1530:16 Unresolved reference 'dispatchGesture'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1534:16 Unresolved reference 'resources'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1553:5 Modifier 'override' is not applicable to 'top level function'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1559:28 Unresolved reference 'WHATSAPP_PACKAGE'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1562:13 Unresolved reference 'isAutonomousMode'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1583:15 Unresolved reference 'extractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1584:13 Unresolved reference 'ExtractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1587:21 Unresolved reference 'rootInActiveWindow'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1587:21 Argument type mismatch: actual type is 'R?', but 'K' was expected.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1587:41 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1587:47 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1588:52 Unresolved reference 'NEW_BROADCAST'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1589:29 Unresolved reference 'findAndClickBroadcastLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1594:13 Unresolved reference 'ExtractionState'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1603:15 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1605:9 Unresolved reference 'rootInActiveWindow'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1605:29 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1605:35 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1607:17 Unresolved reference 'currentScreen'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1608:23 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1611:17 Unresolved reference 'currentScreen'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1612:23 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1619:13 Unresolved reference 'currentScreen'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1619:44 Unresolved reference 'isExtracting'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1620:13 Unresolved reference 'rootInActiveWindow'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1620:33 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1620:39 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1621:23 Unresolved reference 'currentScreen'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1630:13 Unresolved reference 'currentScreen'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1631:13 Unresolved reference 'serviceScope'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1634:21 Unresolved reference 'rootInActiveWindow'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1634:41 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1634:47 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1635:31 Unresolved reference 'currentScreen'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1646:39 Unresolved reference 'BROADCAST_LIST_TITLE'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1647:39 Unresolved reference 'NEW_BROADCAST'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1665:21 Unresolved reference 'currentBroadcastName'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1666:27 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1666:64 Unresolved reference 'currentBroadcastName'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1676:13 Unresolved reference 'isExtracting'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1677:9 Unresolved reference 'isExtracting'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1679:9 Unresolved reference 'serviceScope'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1712:27 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1717:23 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1719:17 Unresolved reference 'isExtracting'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1725:13 Unresolved reference 'isExtracting'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1726:9 Unresolved reference 'isExtracting'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1728:9 Unresolved reference 'serviceScope'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1733:56 Unresolved reference 'applicationContext'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1735:27 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1766:35 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1772:27 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1772:73 Unresolved reference 'currentBroadcastName'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1773:48 Unresolved reference 'currentBroadcastName'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1777:23 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1779:17 Unresolved reference 'isExtracting'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1860:22 Unresolved reference 'extractedLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1862:32 Unresolved reference 'extractedLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1862:54 Unresolved reference 'it'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1864:21 Unresolved reference 'extractedLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1869:9 Unresolved reference 'extractionListeners'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1869:37 Unresolved reference 'it'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1869:39 Unresolved reference 'it'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1869:42 Unresolved reference 'extractedLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1874:19 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1881:13 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1881:26 Unresolved reference 'extractedLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1881:42 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1882:17 Unresolved reference 'extractedLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1884:13 Unresolved reference 'extractionListeners'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1884:41 Unresolved reference 'it'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1884:43 Unresolved reference 'it'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1884:46 Unresolved reference 'extractedLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1888:22 Unresolved reference 'extractedLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1889:33 Unresolved reference 'extractedLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1890:17 Unresolved reference 'it'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1893:31 'operator' modifier is required on 'FirNamedFunctionSymbol kotlin/compareTo' in 'compareTo'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1894:36 Unresolved reference 'extractedLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1895:51 Unresolved reference 'members'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1895:70 Unresolved reference 'distinctBy'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1895:81 Unresolved reference 'name'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1895:83 Unresolved reference 'it'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1896:17 Unresolved reference 'extractedLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1896:61 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'kotlin.text.MatchGroup?'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1896:67 No parameter with name 'members' found.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1897:23 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1905:17 Unresolved reference 'extractedLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1906:23 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1910:9 Unresolved reference 'extractionListeners'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1910:37 Unresolved reference 'it'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1910:39 Unresolved reference 'it'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1910:42 Unresolved reference 'extractedLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1914:9 Unresolved reference 'serviceScope'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1918:29 Unresolved reference 'extractedLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1923:27 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1923:42 Unresolved reference 'extractedLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1925:27 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1928:23 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1934:9 Unresolved reference 'extractedLists'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1935:9 Unresolved reference 'extractionListeners'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1935:37 Unresolved reference 'it'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1935:39 Unresolved reference 'it'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1935:42 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1938:5 Modifier 'override' is not applicable to 'top level function'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1939:15 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1942:5 Modifier 'override' is not applicable to 'top level function'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1943:9 No supertypes are accessible in this context.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1944:9 Unresolved reference 'isRunning'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1945:9 Unresolved reference 'instance'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1946:9 Unresolved reference 'extractionJob'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1947:9 Unresolved reference 'serviceScope'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1948:15 Unresolved reference 'TAG'.
+e: file:///C:/Users/hp/Downloads/group-weaver-ai-main/group-weaver-ai-main/android-app/app/src/main/java/com/groupweaver/ai/service/WhatsAppAccessibilityService.kt:1950:1 Syntax error: Expecting a top level declaration.
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDebugKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 6s
+31 actionable tasks: 1 executed, 30 up-to-date

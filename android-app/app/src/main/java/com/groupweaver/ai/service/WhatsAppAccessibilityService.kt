@@ -1,4 +1,4 @@
-package com.groupweaver.ai.service
+﻿package com.groupweaver.ai.service
 
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.AccessibilityServiceInfo
@@ -10,10 +10,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
-import com.groupweaver.ai.api.ApiClient
 import com.groupweaver.ai.models.BroadcastList
 import com.groupweaver.ai.models.Contact
-import com.groupweaver.ai.models.SyncRequest
 import com.groupweaver.ai.utils.ContactsHelper
 import kotlinx.coroutines.*
 import java.util.*
@@ -39,7 +37,6 @@ class WhatsAppAccessibilityService : AccessibilityService() {
         OPENING_LIST,
         EXTRACTING_MEMBERS,
         GOING_BACK,
-        SYNCING,
         COMPLETE,
         ERROR
     }
@@ -70,7 +67,7 @@ class WhatsAppAccessibilityService : AccessibilityService() {
         var extractionStep = 0
             private set
         
-        var totalSteps = 5
+        var totalSteps = 4
             private set
         
         // Extracted data
@@ -388,7 +385,6 @@ class WhatsAppAccessibilityService : AccessibilityService() {
                         extractNextList()
                     } else {
                         Log.w(TAG, "No broadcast lists found")
-                        updateState(ExtractionState.SYNCING, "No lists found, syncing...")
                         finishExtraction()
                     }
                 }
@@ -429,7 +425,6 @@ class WhatsAppAccessibilityService : AccessibilityService() {
     
     private fun extractNextList() {
         if (currentListIndex >= pendingListsToExtract.size) {
-            updateState(ExtractionState.SYNCING, "All lists extracted, syncing...")
             finishExtraction()
             return
         }
@@ -492,11 +487,13 @@ class WhatsAppAccessibilityService : AccessibilityService() {
             return
         }
         
-        // Method 2: Find the header text with the broadcast name and click its parent
+        // Method 2: Find the header text with the broadcast name or recipient count
         val headerTextNode = findAllNodes(root) { node ->
             val text = node.text?.toString() ?: ""
             text.equals(currentBroadcastName, ignoreCase = true) ||
-            text.contains("recipient", ignoreCase = true)
+            text.contains("recipient", ignoreCase = true) ||
+            text.contains("memebers", ignoreCase = true) ||
+            text.contains("list info", ignoreCase = true)
         }.firstOrNull()
         
         if (headerTextNode != null) {
@@ -618,7 +615,6 @@ class WhatsAppAccessibilityService : AccessibilityService() {
         val members = mutableListOf<Contact>()
         
         // Find potential contact name nodes
-        // Strictly read what's visible on screen as instructed
         val contactNodes = findAllNodes(root) { node ->
             node.className?.toString()?.contains("TextView") == true && 
             !node.text.isNullOrBlank() &&
@@ -627,10 +623,14 @@ class WhatsAppAccessibilityService : AccessibilityService() {
         
         Log.d(TAG, "Found ${contactNodes.size} TextView nodes on screen")
         
+        // WhatsApp hierarchy often has Name and Bio as siblings or in the same container.
+        // We only want the FIRST text node per row to avoid picking up bios/statuses.
+        val processedParents = mutableSetOf<Int>()
+        
         for (node in contactNodes) {
             val text = node.text.toString().trim()
             
-            // Filter out UI noise to isolate contact names
+            // Filter out UI noise
             if (text.length < 2) continue
             if (text.contains("recipient", ignoreCase = true)) continue
             if (text.contains("Broadcast", ignoreCase = true)) continue
@@ -652,12 +652,24 @@ class WhatsAppAccessibilityService : AccessibilityService() {
             if (text.contains("Yesterday", ignoreCase = true)) continue
             if (text.matches(Regex("^\\d{1,2}:\\d{2}\\s*(AM|PM)?$", RegexOption.IGNORE_CASE))) continue // Time
             
+            // Skip if this parent container was already processed (picks the first TextView in each layout)
+            val parent = node.parent
+            if (parent != null) {
+                // Using parent hash as a proxy for the row container
+                val parentId = parent.hashCode()
+                if (processedParents.contains(parentId)) {
+                    Log.d(TAG, "Skipping likely bio/secondary text: $text")
+                    continue
+                }
+                processedParents.add(parentId)
+            }
+            
             // If it seems to be a contact name or number, add it
             if (!members.any { it.name.equals(text, ignoreCase = true) }) {
                 val contact = Contact(
                     id = UUID.randomUUID().toString(),
                     name = text,
-                    phone = "" // Strictly visibility-based, so phone is empty unless literally in text
+                    phone = "" // Strictly visibility-based
                 )
                 members.add(contact)
                 Log.d(TAG, "Read Visible Name: ${contact.name}")
@@ -713,7 +725,6 @@ class WhatsAppAccessibilityService : AccessibilityService() {
     }
     
     private fun finishExtraction() {
-        updateState(ExtractionState.SYNCING, "Finding common members...")
         
         serviceScope.launch {
             try {
@@ -736,7 +747,7 @@ class WhatsAppAccessibilityService : AccessibilityService() {
                         extractedLists.add(commonList)
                     }
                     
-                    updateState(ExtractionState.SYNCING, "Creating WhatsApp broadcast list...")
+                    updateState(ExtractionState.COMPLETE, "Creating WhatsApp broadcast list...")
                     
                     // Create actual WhatsApp broadcast list with common members
                     delay(500)
@@ -744,13 +755,9 @@ class WhatsAppAccessibilityService : AccessibilityService() {
                     
                 } else {
                     Log.d(TAG, "No common members found with phone numbers")
-                    updateState(ExtractionState.SYNCING, "No common members with phone numbers found. Syncing...")
+                    updateState(ExtractionState.COMPLETE, "No common members with phone numbers found.")
                 }
                 
-                // Sync to backend
-                delay(2000)
-                syncToBackend()
-                delay(1000)
                 
                 val message = if (commonMembers.isNotEmpty()) {
                     "Complete! Created broadcast with ${commonMembers.size} common members"
@@ -790,7 +797,7 @@ class WhatsAppAccessibilityService : AccessibilityService() {
             Log.d(TAG, "  ${i+1}. ${m.name} - ${m.phone}")
         }
         
-        updateState(ExtractionState.SYNCING, "Creating broadcast list for ${members.size} common members...")
+        updateState(ExtractionState.COMPLETE, "Creating broadcast list for ${members.size} common members...")
         
         val screenWidth = resources.displayMetrics.widthPixels
         val screenHeight = resources.displayMetrics.heightPixels
@@ -877,7 +884,7 @@ class WhatsAppAccessibilityService : AccessibilityService() {
         delay(2000)
         
         Log.d(TAG, "Step 2: Selecting contacts - SEARCH APPROACH")
-        updateState(ExtractionState.SYNCING, "Searching for ${members.size} contacts...")
+        updateState(ExtractionState.EXTRACTING_MEMBERS, "Searching for ${members.size} contacts...")
         
         var selectedCount = 0
         val selectedNames = mutableSetOf<String>()
@@ -885,7 +892,7 @@ class WhatsAppAccessibilityService : AccessibilityService() {
         for (member in members) {
             val contactToSearch = member.name
             Log.d(TAG, "Action: Searching for '$contactToSearch'...")
-            updateState(ExtractionState.SYNCING, "Searching for $contactToSearch...")
+            updateState(ExtractionState.EXTRACTING_MEMBERS, "Searching for $contactToSearch...")
             
             // 1. Locate and Tap Search Bar / Field
             var searchFieldFound = false
@@ -1065,7 +1072,7 @@ class WhatsAppAccessibilityService : AccessibilityService() {
             writeDebugLog("WhatsAppAccessibilityService.kt:970", "Step 3: Starting done button search", mapOf("selectedCount" to selectedCount.toString()), "E")
             // #endregion
             
-            updateState(ExtractionState.SYNCING, "Creating broadcast with $selectedCount members...")
+            updateState(ExtractionState.EXTRACTING_MEMBERS, "Creating broadcast with $selectedCount members...")
             delay(1500)
             
             Log.d(TAG, "Step 3: Looking for checkmark/done button...")
@@ -1203,15 +1210,265 @@ class WhatsAppAccessibilityService : AccessibilityService() {
             // Log with a specific tag for ease of identification by the user/outer system
             Log.i(TAG, "COMPLETION_OUTPUT: ${completionOutput.toString(2)}")
             
-            updateState(ExtractionState.SYNCING, "Broadcast created with $selectedCount members!")
+            updateState(ExtractionState.COMPLETE, "Broadcast created with $selectedCount members!")
+            
+            // Rename the broadcast list
+            delay(3000) // Longer delay to ensure chat screen is fully loaded
+            renameCurrentBroadcastList("Common Members")
             
         } else {
             // #region agent log
             writeDebugLog("WhatsAppAccessibilityService.kt:1043", "No contacts selected - skipping creation", mapOf("selectedCount" to selectedCount.toString()), "A")
             // #endregion
             Log.w(TAG, "No contacts were selected, skipping broadcast creation")
-            updateState(ExtractionState.SYNCING, "Could not select contacts. Syncing data...")
+            updateState(ExtractionState.COMPLETE, "Could not select contacts.")
         }
+    }
+    
+    /**
+     * Rename the current broadcast list (assuming we are on the chat screen)
+     */
+    private suspend fun renameCurrentBroadcastList(newName: String) {
+        writeDebugLog("WhatsAppAccessibilityService.kt", "renameCurrentBroadcastList START", mapOf("newName" to newName))
+        Log.d(TAG, "Renaming broadcast list to '$newName'...")
+        
+        // 1. Click header to open info screen
+        var infoScreenOpened = false
+        withContext(Dispatchers.Main) {
+            clickHeaderToSeeMembers()
+        }
+        
+        // Wait and check if we are in Info screen
+        repeat(5) { i ->
+            delay(1000)
+            withContext(Dispatchers.Main) {
+                rootInActiveWindow?.let { root ->
+                    if (findNodeWithText(root, "Broadcast list info") != null || 
+                        findNodeWithText(root, "List info") != null ||
+                        findNodeWithText(root, "Edit broadcast list name") != null) {
+                        infoScreenOpened = true
+                        writeDebugLog("WhatsAppAccessibilityService.kt", "Info screen detected", mapOf("attempt" to i.toString()))
+                    }
+                }
+            }
+            if (infoScreenOpened) return@repeat
+        }
+        
+        if (!infoScreenOpened) {
+            Log.e(TAG, "Info screen did not open, trying one more click on top area")
+            writeDebugLog("WhatsAppAccessibilityService.kt", "Info screen NOT detected, retrying click")
+            withContext(Dispatchers.Main) {
+                performClickAtPosition(getScreenWidth() / 2f, 150f)
+            }
+            delay(2000)
+        }
+        
+        // 2. Check if rename option is directly on screen (some UI versions)
+        var foundRenameOption = false
+        withContext(Dispatchers.Main) {
+            rootInActiveWindow?.let { root ->
+                val renameOption = findNodeWithText(root, "Change broadcast list name")
+                    ?: findNodeWithText(root, "Edit broadcast list name")
+                
+                renameOption?.let { node ->
+                    // Try clicking the node first
+                    var clicked = node.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                    
+                    // If direct click fails, try clicking the parent (common for menu items)
+                    if (!clicked) {
+                        node.parent?.let { parent ->
+                            clicked = parent.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                            writeDebugLog("WhatsAppAccessibilityService.kt", "Tried parent click", mapOf("clicked" to clicked.toString()))
+                        }
+                    }
+                    
+                    // If still not clicked, try gesture tap on the node's bounds
+                    if (!clicked) {
+                        val bounds = Rect()
+                        node.getBoundsInScreen(bounds)
+                        performGestureTap(bounds.centerX().toFloat(), bounds.centerY().toFloat())
+                        clicked = true
+                        writeDebugLog("WhatsAppAccessibilityService.kt", "Gesture tap on rename option", mapOf("x" to bounds.centerX().toString(), "y" to bounds.centerY().toString()))
+                    }
+                    
+                    foundRenameOption = clicked
+                    writeDebugLog("WhatsAppAccessibilityService.kt", "Rename option (direct) clicked", mapOf("text" to (node.text?.toString() ?: "null"), "clicked" to clicked.toString()))
+                }
+            }
+        }
+        
+        // 3. If not found direct, Click "More options" (three dots)
+        if (!foundRenameOption) {
+            var menuOpened = false
+            withContext(Dispatchers.Main) {
+                rootInActiveWindow?.let { root ->
+                    val menuButton = findNodeByContentDescription(root, MORE_OPTIONS)
+                        ?: findNodeByContentDescription(root, "More Options")
+                        ?: findNodeByContentDescription(root, "Overflow menu")
+                    
+                    if (menuButton != null) {
+                        var clicked = menuButton.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                        if (!clicked) {
+                            // Try gesture tap
+                            val bounds = Rect()
+                            menuButton.getBoundsInScreen(bounds)
+                            performGestureTap(bounds.centerX().toFloat(), bounds.centerY().toFloat())
+                        }
+                        menuOpened = true
+                        writeDebugLog("WhatsAppAccessibilityService.kt", "Menu button clicked")
+                    } else {
+                        writeDebugLog("WhatsAppAccessibilityService.kt", "Menu button NOT found")
+                    }
+                }
+            }
+            
+            if (!menuOpened) {
+                // Try tap at top right (common menu position)
+                withContext(Dispatchers.Main) {
+                    performGestureTap(getScreenWidth() - 50f, 150f)
+                }
+                delay(500)
+                // Try again at a slightly different position
+                withContext(Dispatchers.Main) {
+                    performGestureTap(getScreenWidth() - 80f, 120f)
+                }
+                delay(1000)
+            }
+            delay(1500) // Wait for menu to appear
+            
+            // Debug: Log all visible text nodes in menu
+            withContext(Dispatchers.Main) {
+                rootInActiveWindow?.let { root ->
+                    val allTextNodes = findAllNodes(root) { it.text != null }
+                    allTextNodes.take(15).forEach { node ->
+                        writeDebugLog("WhatsAppAccessibilityService.kt", "Menu item visible", mapOf("text" to (node.text?.toString() ?: "null")))
+                    }
+                }
+            }
+            
+            // 4. Click "Change broadcast list name" or similar in menu
+            withContext(Dispatchers.Main) {
+                rootInActiveWindow?.let { root ->
+                    // Try exact match first
+                    var renameOption = findNodeWithText(root, "Change broadcast list name")
+                    
+                    // Try partial/contains match if exact fails
+                    if (renameOption == null) {
+                        renameOption = findAllNodes(root) { node ->
+                            val text = node.text?.toString()?.lowercase() ?: ""
+                            text.contains("change") && text.contains("broadcast") && text.contains("name")
+                        }.firstOrNull()
+                    }
+                    
+                    if (renameOption == null) {
+                        renameOption = findNodeWithText(root, "Edit broadcast list name")
+                            ?: findNodeWithText(root, "Rename broadcast list")
+                            ?: findNodeWithText(root, "Change name")
+                            ?: findNodeWithText(root, "Rename")
+                            ?: findNodeWithText(root, "Edit name")
+                    }
+                    
+                    renameOption?.let { node ->
+                        writeDebugLog("WhatsAppAccessibilityService.kt", "Found rename option in menu", mapOf("text" to (node.text?.toString() ?: "null")))
+                        
+                        // Try clicking the node
+                        var clicked = node.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                        
+                        // If direct click fails, try clicking the parent
+                        if (!clicked) {
+                            node.parent?.let { parent ->
+                                clicked = parent.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                                writeDebugLog("WhatsAppAccessibilityService.kt", "Tried parent click for menu item", mapOf("clicked" to clicked.toString()))
+                            }
+                        }
+                        
+                        // If still not clicked, try gesture tap
+                        if (!clicked) {
+                            val bounds = Rect()
+                            node.getBoundsInScreen(bounds)
+                            if (bounds.width() > 0 && bounds.height() > 0) {
+                                performGestureTap(bounds.centerX().toFloat(), bounds.centerY().toFloat())
+                                clicked = true
+                                writeDebugLog("WhatsAppAccessibilityService.kt", "Gesture tap on menu rename option", mapOf("x" to bounds.centerX().toString(), "y" to bounds.centerY().toString()))
+                            }
+                        }
+                        
+                        foundRenameOption = clicked
+                        writeDebugLog("WhatsAppAccessibilityService.kt", "Rename option (menu) clicked", mapOf("text" to (node.text?.toString() ?: "null"), "clicked" to clicked.toString()))
+                    } ?: run {
+                        writeDebugLog("WhatsAppAccessibilityService.kt", "Rename option NOT found in menu")
+                    }
+                }
+            }
+        }
+        
+        if (!foundRenameOption) {
+            Log.e(TAG, "Could not find rename option anywhere")
+            writeDebugLog("WhatsAppAccessibilityService.kt", "Rename option NOT found anywhere")
+            return
+        }
+        delay(1500)
+        
+        // 5. Enter new name and click OK
+        withContext(Dispatchers.Main) {
+            rootInActiveWindow?.let { root ->
+                val editText = findAllNodes(root) { it.className?.toString()?.contains("EditText") == true }.firstOrNull()
+                editText?.let {
+                    writeDebugLog("WhatsAppAccessibilityService.kt", "Rename EditText found")
+                    it.performAction(AccessibilityNodeInfo.ACTION_FOCUS)
+                    delay(200)
+                    val arguments = Bundle()
+                    arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, newName)
+                    it.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments)
+                    delay(1000)
+                    
+                    // Re-scan for buttons as the keyboard might have changed the layout
+                    rootInActiveWindow?.let { newRoot ->
+                        val okButton = findNodeWithText(newRoot, "OK")
+                            ?: findNodeWithText(newRoot, "Save")
+                            ?: findNodeWithText(newRoot, "Done")
+                            ?: findNodeWithText(newRoot, "Change")
+                            ?: findAllNodes(newRoot) { node -> 
+                                (node.text?.toString()?.length ?: 0) <= 6 && 
+                                (node.text?.toString()?.lowercase()?.contains("ok") == true || 
+                                 node.text?.toString()?.lowercase()?.contains("save") == true)
+                            }.firstOrNull()
+                        
+                        if (okButton != null) {
+                            okButton.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                            Log.d(TAG, "Renaming complete!")
+                            writeDebugLog("WhatsAppAccessibilityService.kt", "Renaming complete (OK clicked)")
+                        } else {
+                            writeDebugLog("WhatsAppAccessibilityService.kt", "OK button NOT found in dialog, trying gesture tap")
+                            // Common "OK" button location in dialogs
+                            performGestureTap(getScreenWidth() * 0.8f, getScreenHeight() * 0.55f)
+                        }
+                    }
+                } ?: run {
+                    writeDebugLog("WhatsAppAccessibilityService.kt", "Rename EditText NOT found")
+                }
+            }
+        }
+        delay(2000)
+        
+        // 5. Go back twice to return to main broadcast screen if needed, 
+        // but for now just go back once to Chat screen
+        withContext(Dispatchers.Main) {
+            performGlobalAction(GLOBAL_ACTION_BACK)
+        }
+        delay(1000)
+        
+        // Output COMPLETION_OUTPUT for rename as per user requirement
+        val renameOutput = JSONObject()
+        renameOutput.put("broadcast_list_renamed", true)
+        renameOutput.put("new_broadcast_list_name", newName)
+        Log.i(TAG, "RENAME_OUTPUT: ${renameOutput.toString(2)}")
+        
+        writeDebugLog("WhatsAppAccessibilityService.kt", "renameCurrentBroadcastList END")
+    }
+    
+    private fun getScreenHeight(): Int {
+        return resources.displayMetrics.heightPixels
     }
     
     private suspend fun performGestureTap(x: Float, y: Float) {
@@ -1277,9 +1534,9 @@ class WhatsAppAccessibilityService : AccessibilityService() {
             ExtractionState.OPENING_WHATSAPP -> 1
             ExtractionState.NAVIGATING_TO_MENU, ExtractionState.NAVIGATING_TO_BROADCASTS -> 2
             ExtractionState.EXTRACTING_LISTS, ExtractionState.OPENING_LIST, ExtractionState.EXTRACTING_MEMBERS, ExtractionState.GOING_BACK -> 3
-            ExtractionState.SYNCING -> 4
-            ExtractionState.COMPLETE -> 5
+            ExtractionState.COMPLETE -> 4
             ExtractionState.ERROR -> extractionStep
+            else -> extractionStep
         }
         
         Log.d(TAG, "State: $state - $progress")
@@ -1530,10 +1787,19 @@ class WhatsAppAccessibilityService : AccessibilityService() {
                     node.className?.toString() == "android.widget.TextView"
                 }
                 
+                val processedParents = mutableSetOf<Int>()
                 for (node in contactNodes) {
                     val text = node.text?.toString() ?: node.contentDescription?.toString() ?: continue
                     
                     if (text.length > 2 && !text.contains("recipient") && !text.contains("Broadcast")) {
+                        // Skip if parent already processed (to avoid bios)
+                        val parent = node.parent
+                        if (parent != null) {
+                            val parentId = parent.hashCode()
+                            if (processedParents.contains(parentId)) continue
+                            processedParents.add(parentId)
+                        }
+                        
                         val extractedPhone = extractPhoneNumber(text)
                         
                         val contactName = if (extractedPhone != null && phoneToNameMap.isNotEmpty()) {
@@ -1699,25 +1965,6 @@ class WhatsAppAccessibilityService : AccessibilityService() {
         extractionListeners.forEach { it(extractedLists.toList()) }
     }
     
-    fun syncToBackend() {
-        serviceScope.launch {
-            try {
-                val request = SyncRequest(
-                    deviceId = android.os.Build.MODEL,
-                    lists = extractedLists.toList()
-                )
-                
-                val response = ApiClient.getApiService().syncBroadcasts(request)
-                if (response.isSuccessful) {
-                    Log.d(TAG, "Synced ${extractedLists.size} lists to backend")
-                } else {
-                    Log.e(TAG, "Sync failed: ${response.code()}")
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "Sync error", e)
-            }
-        }
-    }
     
     fun clearExtractedData() {
         extractedLists.clear()

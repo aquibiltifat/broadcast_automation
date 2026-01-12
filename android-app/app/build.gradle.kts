@@ -17,7 +17,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         
         // Backend URL - change for production
-        buildConfigField("String", "BACKEND_URL", "\"http://10.0.2.2:3002\"")
+        buildConfigField("String", "BACKEND_URL", "\"https://broadcast-backend-u08k.onrender.com\"")
     }
 
     buildTypes {
